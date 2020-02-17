@@ -1,0 +1,28 @@
+# This is a single-shot configuration that creates the entire Docker Voting app
+# all in one go.
+apiVersion: core.oam.dev/v1alpha1
+kind: ApplicationConfiguration
+metadata:
+  name: voter-app
+spec:
+  components:
+    - componentName: db
+      instanceName: db
+    - componentName: redis
+      instanceName: redis
+    - componentName: worker
+      instanceName: worker
+    - componentName: frontend
+      instanceName: frontend
+      traits:
+        - name: ingress
+          properties:
+          hostname: voting.example.com
+          path: /
+    - componentName: admin
+      instanceName: admin
+      traits:
+        - name: ingress
+          properties:
+          hostname: admin.example.com
+          path: /

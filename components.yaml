@@ -1,0 +1,87 @@
+apiVersion: core.oam.dev/v1alpha1
+kind: ComponentSchematic
+metadata:
+  name: admin
+  annotations:
+    version: "1.0.0"
+    description: Voting results interface
+spec:
+  workloadType: core.oam.dev/v1alpha1.Server
+  containers:
+    - name: server
+      ports:
+        - containerPort: 5001
+          name: http
+          protocol: TCP
+      image: dockersamples/examplevotingapp_result:before
+---
+apiVersion: core.oam.dev/v1alpha1
+kind: ComponentSchematic
+metadata:
+  name: db
+  annotations:
+    version: "1.0.0"
+    description: PostgreSQL Database
+spec:
+  workloadType: core.oam.dev/v1alpha1.SingletonServer
+  containers:
+    - name: db
+      env:
+        - name: POSTGRES_PASSWORD
+          value: P@ssw0rd
+        - name: POSTGRES_HOST_AUTH_METHOD
+          value: trust
+      ports:
+        - containerPort: 5432
+          name: postgres
+          protocol: TCP
+      image: postgres:9.4
+---
+apiVersion: core.oam.dev/v1alpha1
+kind: ComponentSchematic
+metadata:
+  name: redis
+  annotations:
+    version: "1.0.0"
+    description: Redis single-node
+spec:
+  workloadType: core.oam.dev/v1alpha1.SingletonServer
+  containers:
+    - name: cache
+      ports:
+        - containerPort: 6379
+          name: redis
+          protocol: TCP
+      image: redis:alpine
+---
+apiVersion: core.oam.dev/v1alpha1
+kind: ComponentSchematic
+metadata:
+  name: frontend
+  annotations:
+    version: "1.0.0"
+    description: Voting front-end webserver
+spec:
+  workloadType: core.oam.dev/v1alpha1.Server
+  containers:
+    - name: server
+      ports:
+        - containerPort: 5000
+          name: http
+          protocol: TCP
+      image: dockersamples/examplevotingapp_vote:before
+---
+apiVersion: core.oam.dev/v1alpha1
+kind: ComponentSchematic
+metadata:
+  name: worker
+  annotations:
+    version: "1.0.0"
+    description: Worker for tallying voting results
+spec:
+  workloadType: core.oam.dev/v1alpha1.Server
+  containers:
+    - name: server
+      image: bretfisher/examplevotingapp_worker:java
+---
+
