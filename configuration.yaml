@@ -17,12 +17,8 @@ spec:
       traits:
         - name: ingress
           properties:
-          hostname: voting.example.com
-          path: /
+                  hostname: voting.wiprocms.com
+                  path: /
+                  servicePort: 80
     - componentName: admin
       instanceName: admin
-      traits:
-        - name: ingress
-          properties:
-          hostname: admin.example.com
-          path: /

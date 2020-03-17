@@ -10,7 +10,7 @@ spec:
   containers:
     - name: server
       ports:
-        - containerPort: 5001
+        - containerPort: 80
           name: http
           protocol: TCP
       image: dockersamples/examplevotingapp_result:before
@@ -66,7 +66,7 @@ spec:
   containers:
     - name: server
       ports:
-        - containerPort: 5000
+        - containerPort: 80 
           name: http
           protocol: TCP
       image: dockersamples/examplevotingapp_vote:before
