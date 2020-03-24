@@ -14,6 +14,11 @@ spec:
       instanceName: worker
     - componentName: frontend
       instanceName: frontend
+      parameterValues:
+       - name: OPTION_A
+         value: K8s
+       - name: OPTION_B
+         value: Rudr
       traits:
         - name: ingress
           properties:

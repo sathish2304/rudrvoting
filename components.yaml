@@ -13,7 +13,7 @@ spec:
         - containerPort: 80
           name: http
           protocol: TCP
-      image: dockersamples/examplevotingapp_result:before
+      image: sathish2304/result:v5
 ---
 apiVersion: core.oam.dev/v1alpha1
 kind: ComponentSchematic
@@ -63,6 +63,13 @@ metadata:
     description: Voting front-end webserver
 spec:
   workloadType: core.oam.dev/v1alpha1.Server
+  parameters:
+    - name: OPTION_A
+      type: string
+      required: false
+    - name: OPTION_B
+      type: string
+      required: false
   containers:
     - name: server
       ports:
@@ -70,6 +77,11 @@ spec:
           name: http
           protocol: TCP
       image: dockersamples/examplevotingapp_vote:before
+      env: 
+       - name: OPTION_A
+         fromParam: OPTION_A
+       - name: OPTION_B
+         fromParam: OPTION_B  
 ---
 apiVersion: core.oam.dev/v1alpha1
 kind: ComponentSchematic
@@ -79,7 +91,7 @@ metadata:
     version: "1.0.0"
     description: Worker for tallying voting results
 spec:
-  workloadType: core.oam.dev/v1alpha1.Server
+  workloadType: core.oam.dev/v1alpha1.Worker
   containers:
     - name: server
       image: bretfisher/examplevotingapp_worker:java
