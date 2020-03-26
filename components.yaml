@@ -24,13 +24,20 @@ metadata:
     description: PostgreSQL Database
 spec:
   workloadType: core.oam.dev/v1alpha1.SingletonServer
+  parameters:
+     - name: POSTGRES_PASSWORD
+       type: string
+       required: true
+     - name: POSTGRES_HOST_AUTH_METHOD
+       type: string 
+       required: true
   containers:
     - name: db
       env:
         - name: POSTGRES_PASSWORD
-          value: P@ssw0rd
+          fromParam: POSTGRES_PASSWORD
         - name: POSTGRES_HOST_AUTH_METHOD
-          value: trust
+          fromParam: POSTGRES_HOST_AUTH_METHOD 
       ports:
         - containerPort: 5432
           name: postgres
@@ -96,4 +103,3 @@ spec:
     - name: server
       image: bretfisher/examplevotingapp_worker:java
 ---
-

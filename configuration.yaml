@@ -4,10 +4,17 @@ apiVersion: core.oam.dev/v1alpha1
 kind: ApplicationConfiguration
 metadata:
   name: voter-app
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   components:
     - componentName: db
       instanceName: db
+      parameterValues: 
+       - name: POSTGRES_PASSWORD
+         value: P@ssw0rd
+       - name: POSTGRES_HOST_AUTH_METHOD
+         value: trust
     - componentName: redis
       instanceName: redis
     - componentName: worker
